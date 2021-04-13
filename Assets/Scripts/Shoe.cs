@@ -1,0 +1,62 @@
+﻿using UnityEngine;
+using UnityEngine.AI;
+
+public class Shoe : MonoBehaviour
+{
+    GameObject shoeAnim;
+    float wanderTimer;
+     NavMeshAgent agent;
+    float timer;
+    public Material[] colors= new Material[6];
+    SkinnedMeshRenderer tong, shoe;
+    private void OnEnable()
+    {
+        shoeAnim = gameObject.transform.GetChild(0).gameObject;
+    }
+    void Start()
+    {
+        timer = wanderTimer;
+        wanderTimer = Random.Range(5, 10);
+        agent = GetComponent<NavMeshAgent>();
+
+        //Ayakkabıları renklendirir
+        if (gameObject.name.Contains("Shoe"))
+        {
+            tong = gameObject.transform.GetChild(0).Find("Tongue").GetComponent<SkinnedMeshRenderer>();
+            shoe = gameObject.transform.GetChild(0).Find("colliderObj").GetComponent<SkinnedMeshRenderer>();
+            GetColored(tong);
+            GetColored(shoe);
+        }
+        else
+        {
+            gameObject.GetComponentInChildren<Animator>().speed = 0.8f;
+        }
+       
+    }
+
+    void Update()
+    {
+        // Ayakkabıların animasyon ve yürüme kontrolleri
+        if (shoeAnim.transform.position.y > 1.5f)
+        {
+            agent.isStopped = false;
+            if (timer >= wanderTimer)
+            {
+                Vector3 newPos =new Vector3(Random.Range(-20,20),0.2f,transform.position.z+Random.Range(-26,26));
+                agent.SetDestination(newPos);
+                timer = 0;
+            }
+        }
+        else
+            agent.isStopped = true;
+
+        timer += Time.deltaTime;
+        
+    }
+    public void GetColored(SkinnedMeshRenderer renderer)
+    {
+        renderer.material = colors[Random.Range(0, 5)];
+    }
+
+
+}
