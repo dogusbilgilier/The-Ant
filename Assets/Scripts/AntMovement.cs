@@ -12,6 +12,7 @@ public class AntMovement : MonoBehaviour
     {
         mainCam = Camera.main;
         animator = GetComponentInChildren<Animator>();
+
         if (JoystickOption.stickOr.Equals("Left"))
         {
             joystick = JLeft.GetComponent<FixedJoystick>();
@@ -38,7 +39,7 @@ public class AntMovement : MonoBehaviour
     {
         //Kameranın takibi ve yüksekliği
 
-        if (RoadCam.camAnim)
+        if (RoadCam.camAnim) 
             RoadCam.CamUp();
         else
             RoadCam.CamDown();

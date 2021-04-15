@@ -19,24 +19,22 @@ public class Shoe : MonoBehaviour
         wanderTimer = Random.Range(5, 10);
         agent = GetComponent<NavMeshAgent>();
 
-        //Ayakkabıları renklendirir
+        //Ayakkabıları renklendirme terliklarin animasyon hızını ayarlama
         if (gameObject.name.Contains("Shoe"))
         {
-            tong = gameObject.transform.GetChild(0).Find("Tongue").GetComponent<SkinnedMeshRenderer>();
-            shoe = gameObject.transform.GetChild(0).Find("colliderObj").GetComponent<SkinnedMeshRenderer>();
+            tong = transform.GetChild(0).Find("Tongue").GetComponent<SkinnedMeshRenderer>();
+            shoe = transform.GetChild(0).Find("colliderObj").GetComponent<SkinnedMeshRenderer>();
             GetColored(tong);
             GetColored(shoe);
         }
         else
-        {
             gameObject.GetComponentInChildren<Animator>().speed = 0.8f;
-        }
        
     }
 
     void Update()
     {
-        // Ayakkabıların animasyon ve yürüme kontrolleri
+        // Ayakkabıların ve terliklerin animasyon ve yürüme kontrolleri
         if (shoeAnim.transform.position.y > 1.5f)
         {
             agent.isStopped = false;

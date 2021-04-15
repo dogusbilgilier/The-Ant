@@ -9,7 +9,7 @@ public class TheAnt : MonoBehaviour
     public static bool dead = false;
     int health;
     public static float points=0;
-     public static Text pointTxt;
+    public static Text pointTxt;
     Rigidbody body;
     [SerializeField] GameObject[] healthObj = new GameObject[5];
     [SerializeField] Material[] maxHealth= new Material[5];
@@ -26,11 +26,16 @@ public class TheAnt : MonoBehaviour
     void Start()
     {
         //Başlangıç normalleri
-
+        fadeIn = FindObjectOfType<FadeIn>();
+        pointTxt = GameObject.FindGameObjectWithTag("Points").GetComponent<Text>();
+        pointTxt = GameObject.FindGameObjectWithTag("Points").GetComponent<Text>();
+        body = GetComponent<Rigidbody>();
         
+
         if (!MusicPlayer.source.isPlaying)
             MusicPlayer.source.Play();
 
+        //Joystick ayarları
         if (JoystickOption.stickOr.Equals("Left"))
         {
             joystick = joystickLeft;
@@ -46,11 +51,7 @@ public class TheAnt : MonoBehaviour
         dead = false;
         theEnd.SetActive(false);
 
-        fadeIn = FindObjectOfType<FadeIn>();
-        pointTxt = GameObject.FindGameObjectWithTag("Points").gameObject.GetComponent<Text>();
-        body = GetComponent<Rigidbody>();
         health = 3;
-
         //Karınca HealtBarı Tanımlama
         for (int i = 0; i < 5; i++)
             healthBar[i] = healthObj[i].GetComponent<SkinnedMeshRenderer>();
@@ -120,7 +121,8 @@ public class TheAnt : MonoBehaviour
         yield return new WaitForSeconds(7);
         SceneManager.LoadScene("EndScene");
     }
-
+    
+    //Çarpışma ve tetiklenme olayları
     private void OnTriggerEnter(Collider other)
     {
         if (other.name.Equals("colliderObj") || other.name.Contains("wheel")||other.name.Contains("Flip"))
@@ -141,6 +143,7 @@ public class TheAnt : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        // kola ile çarpışma şiddetine göre can düşümü
         if (collision.gameObject.name.Contains("cola"))
         {
             Debug.Log(collision.relativeVelocity.magnitude);
