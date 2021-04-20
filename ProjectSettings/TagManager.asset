@@ -9,6 +9,7 @@ TagManager:
   - music
   - food
   - enemy
+  - drop
   layers:
   - Default
   - TransparentFX

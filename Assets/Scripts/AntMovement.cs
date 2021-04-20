@@ -10,6 +10,7 @@ public class AntMovement : MonoBehaviour
     Camera mainCam;
     void Start()
     {
+        RoadCam.camAnim = false;
         mainCam = Camera.main;
         animator = GetComponentInChildren<Animator>();
 
@@ -23,8 +24,6 @@ public class AntMovement : MonoBehaviour
             joystick = JRight.GetComponent<FixedJoystick>();
             JLeft.gameObject.SetActive(false);
         }
-         
-
 
     }
     void FixedUpdate()

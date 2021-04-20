@@ -28,9 +28,4 @@ public class Dropable : MonoBehaviour
             dropTime = Random.Range(10, 30);
         }
     }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log(collision.relativeVelocity.magnitude);
-    }
 }

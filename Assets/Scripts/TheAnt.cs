@@ -128,7 +128,7 @@ public class TheAnt : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.ta g.Equals("enemy"))
+        if (other.gameObject.tag.Equals("enemy"))
         {
             HealthDown();
         }
@@ -137,9 +137,8 @@ public class TheAnt : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.relativeVelocity.magnitude);
 
-        if (collision.relativeVelocity.magnitude > 6)
+        if (collision.relativeVelocity.magnitude > 6 && collision.gameObject.tag.Equals("drop"))
             HealthDown();
     }
        
