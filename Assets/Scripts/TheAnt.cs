@@ -30,10 +30,13 @@ public class TheAnt : MonoBehaviour
         pointTxt = GameObject.FindGameObjectWithTag("Points").GetComponent<Text>();
         pointTxt = GameObject.FindGameObjectWithTag("Points").GetComponent<Text>();
         body = GetComponent<Rigidbody>();
-        
 
-        if (!MusicPlayer.source.isPlaying)
-            MusicPlayer.source.Play();
+        if (MusicPlayer.source != null)
+        {
+            if (!MusicPlayer.source.isPlaying)
+                MusicPlayer.source.Play();
+        }
+      
 
         //Joystick ayarları
         if (JoystickOption.stickOr.Equals("Left"))
@@ -122,40 +125,22 @@ public class TheAnt : MonoBehaviour
         SceneManager.LoadScene("EndScene");
     }
     
-    //Çarpışma ve tetiklenme olayları
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.name.Equals("colliderObj") || other.name.Contains("wheel")||other.name.Contains("Flip"))
+        if (other.gameObject.ta g.Equals("enemy"))
         {
-            body.constraints = RigidbodyConstraints.FreezeAll;
             HealthDown();
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.name.Equals("colliderObj") || other.name.Contains("wheel")|| other.gameObject.name.Contains("Flip"))
-        {
-            body.constraints = RigidbodyConstraints.FreezePositionY;
-            body.freezeRotation = true;
-        }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        // kola ile çarpışma şiddetine göre can düşümü
-        if (collision.gameObject.name.Contains("cola"))
-        {
-            Debug.Log(collision.relativeVelocity.magnitude);
-            if (collision.relativeVelocity.magnitude > 6)
-            {
-                HealthDown();
-            }
         }
        
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log(collision.relativeVelocity.magnitude);
 
-
-   
+        if (collision.relativeVelocity.magnitude > 6)
+            HealthDown();
+    }
+       
 }

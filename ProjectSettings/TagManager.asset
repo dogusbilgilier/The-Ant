@@ -7,6 +7,8 @@ TagManager:
   - Points
   - Nose
   - music
+  - food
+  - enemy
   layers:
   - Default
   - TransparentFX
