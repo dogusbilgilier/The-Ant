@@ -94,8 +94,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7660799431778852159}
   - component: {fileID: 4049865691800871497}
-  - component: {fileID: 8153061642810614876}
   - component: {fileID: 8668200780332409793}
+  - component: {fileID: 668497786953526291}
   m_Layer: 0
   m_Name: colliderObj
   m_TagString: enemy
@@ -170,20 +170,6 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.7268991, y: -0.22728682, z: 0.17002016}
     m_Extent: {x: 1.8523164, y: 2.07844, z: 1.8471103}
   m_DirtyAABB: 0
---- !u!136 &8153061642810614876
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3039174732411716738}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.99
-  m_Height: 3.85
-  m_Direction: 0
-  m_Center: {x: 0.15, y: 0.04, z: 0}
 --- !u!64 &8668200780332409793
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -193,11 +179,24 @@ MeshCollider:
   m_GameObject: {fileID: 3039174732411716738}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4493585093827132993, guid: ca589abda06f62548b599a09a552a7eb, type: 3}
+--- !u!65 &668497786953526291
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3039174732411716738}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.93, y: -1.28, z: 1.65}
+  m_Center: {x: 0.18, y: -0.2, z: 0}
 --- !u!1 &3701541813069871533
 GameObject:
   m_ObjectHideFlags: 0
