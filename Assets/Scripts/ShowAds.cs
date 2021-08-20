@@ -7,6 +7,7 @@ public class ShowAds : MonoBehaviour
     {
         ads = FindObjectOfType<AdLoader>();
         ads.ShowAds();
+        ads.LoadAds();
     }
 
 }

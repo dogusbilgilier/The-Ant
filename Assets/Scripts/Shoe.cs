@@ -40,7 +40,7 @@ public class Shoe : MonoBehaviour
             agent.isStopped = false;
             if (timer >= wanderTimer)
             {
-                Vector3 newPos =new Vector3(Random.Range(-20,20),0.2f,transform.position.z+Random.Range(-26,26));
+                Vector3 newPos =new Vector3(Random.Range(-20,20),0.1f,transform.position.z+Random.Range(-26,26));
                 agent.SetDestination(newPos);
                 timer = 0;
             }

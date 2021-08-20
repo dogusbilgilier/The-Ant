@@ -78,6 +78,9 @@ public class TheAnt : MonoBehaviour
     {
         if (health > 0)
         {
+            GetComponent<CapsuleCollider>().enabled = false;
+            body.isKinematic = true;
+
             health--;
             AudioSource.PlayClipAtPoint(crushSFX, Camera.main.transform.position);
 
@@ -86,7 +89,38 @@ public class TheAnt : MonoBehaviour
 
             if (health == 0)
                 Dead();
+            StartCoroutine(HealthDownEffect());
+            StartCoroutine(WaitForColliderON());
         }
+    }
+
+    IEnumerator WaitForColliderON()
+    {
+        yield return new WaitForSeconds(1.4f);
+        GetComponent<CapsuleCollider>().enabled = true;
+        body.isKinematic = false;
+    }
+
+    IEnumerator HealthDownEffect()
+    {
+        yield return new WaitForSeconds(0.15f);
+        healthBar[health].material = unhealth;
+        yield return new WaitForSeconds(0.15f);
+        healthBar[health].material = maxHealth[health];
+        yield return new WaitForSeconds(0.15f);
+        healthBar[health].material = unhealth;
+        yield return new WaitForSeconds(0.15f);
+        healthBar[health].material = maxHealth[health];
+        yield return new WaitForSeconds(0.15f);
+        healthBar[health].material = unhealth;
+        yield return new WaitForSeconds(0.15f);
+        healthBar[health].material = maxHealth[health];
+        yield return new WaitForSeconds(0.15f);
+        healthBar[health].material = unhealth;
+        yield return new WaitForSeconds(0.15f);
+        healthBar[health].material = maxHealth[health];
+        yield return new WaitForSeconds(0.15f);
+        healthBar[health].material = unhealth;
     }
 
     public void HealUp()

@@ -14,7 +14,7 @@ public class AdLoader : MonoBehaviour
         LoadAds();
     }
  
-    void LoadAds()
+    public void LoadAds()
     {
         ad = new InterstitialAd(adID);
         AdRequest request = new AdRequest.Builder().Build();
@@ -25,7 +25,7 @@ public class AdLoader : MonoBehaviour
         if (ad.IsLoaded())
             ad.Show();
 
-        Destroy(gameObject);
+       // Destroy(gameObject);
     }
 
 }
