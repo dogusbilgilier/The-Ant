@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
@@ -8,27 +7,19 @@ public class TheAnt : MonoBehaviour
 {
     public static bool dead = false;
     int health;
-    public static float points=0;
-    public static Text pointTxt;
+    float points = 0;
     Rigidbody body;
     [SerializeField] GameObject[] healthObj = new GameObject[5];
     [SerializeField] Material[] maxHealth= new Material[5];
     [SerializeField] Material unhealth;
-    [SerializeField] AudioClip deadMusic, eatSFX, crushSFX;
+
     [SerializeField] GameObject joystickLeft,joystickRight,pause,theEnd;
     GameObject joystick;
-    FadeIn fadeIn;
 
-
-    
     SkinnedMeshRenderer[] healthBar = new SkinnedMeshRenderer[5];
 
     void Start()
     {
-        //Başlangıç normalleri
-        fadeIn = FindObjectOfType<FadeIn>();
-        pointTxt = GameObject.FindGameObjectWithTag("Points").GetComponent<Text>();
-        pointTxt = GameObject.FindGameObjectWithTag("Points").GetComponent<Text>();
         body = GetComponent<Rigidbody>();
 
         if (MusicPlayer.source != null)
@@ -39,7 +30,7 @@ public class TheAnt : MonoBehaviour
       
 
         //Joystick ayarları
-        if (JoystickOption.stickOr.Equals("Left"))
+        if (PlayerPrefs.GetInt("Joystick")==0)
         {
             joystick = joystickLeft;
             joystickRight.SetActive(false);
@@ -63,17 +54,7 @@ public class TheAnt : MonoBehaviour
             healthBar[i].material = unhealth;
     }
 
-    private void Update()
-    {
-        Score();
-    }
 
-    void Score()
-    {
-        // Metre Hesabı
-        points = (transform.position.z + 26) / 10f;
-        pointTxt.text = string.Format("{0:0.0}", points) + " m";
-    }
     void HealthDown()
     {
         if (health > 0)
@@ -82,7 +63,8 @@ public class TheAnt : MonoBehaviour
             body.isKinematic = true;
 
             health--;
-            AudioSource.PlayClipAtPoint(crushSFX, Camera.main.transform.position);
+            EventManager.OnHealthDown.Invoke();
+            
 
             for (int i = 4; health - 1 < i; i--)
                 healthBar[i].material = unhealth;
@@ -103,29 +85,19 @@ public class TheAnt : MonoBehaviour
 
     IEnumerator HealthDownEffect()
     {
-        yield return new WaitForSeconds(0.15f);
-        healthBar[health].material = unhealth;
-        yield return new WaitForSeconds(0.15f);
-        healthBar[health].material = maxHealth[health];
-        yield return new WaitForSeconds(0.15f);
-        healthBar[health].material = unhealth;
-        yield return new WaitForSeconds(0.15f);
-        healthBar[health].material = maxHealth[health];
-        yield return new WaitForSeconds(0.15f);
-        healthBar[health].material = unhealth;
-        yield return new WaitForSeconds(0.15f);
-        healthBar[health].material = maxHealth[health];
-        yield return new WaitForSeconds(0.15f);
-        healthBar[health].material = unhealth;
-        yield return new WaitForSeconds(0.15f);
-        healthBar[health].material = maxHealth[health];
-        yield return new WaitForSeconds(0.15f);
-        healthBar[health].material = unhealth;
+        for (int i = 0; i < 4; i++)
+        {
+            yield return new WaitForSeconds(0.15f);
+            healthBar[health].material = maxHealth[health];
+            yield return new WaitForSeconds(0.15f);
+            healthBar[health].material = unhealth;
+           
+        }
     }
 
     public void HealUp()
     {
-        AudioSource.PlayClipAtPoint(eatSFX, Camera.main.transform.position);
+      EventManager.OnHealUp.Invoke();
         if (health < 5)
         {
             health++;
@@ -136,36 +108,17 @@ public class TheAnt : MonoBehaviour
 
     void Dead()
     {
-        fadeIn.Fade();
-        MusicPlayer.source.Stop();
-        AudioSource.PlayClipAtPoint(deadMusic, Camera.main.transform.position);
+        Debug.Log("Death");
+        EventManager.OnDeath.Invoke();
+       
         joystick.SetActive(false);
         pause.SetActive(false);
-        dead = true;
-        
-        StartCoroutine(WaitForEndScene());
-        StartCoroutine(WaitForTxt());
     }
-
-    IEnumerator WaitForTxt()
-    {
-        yield return new WaitForSeconds(0.6f);
-        theEnd.SetActive(true);
-    }
-
-    IEnumerator WaitForEndScene()
-    {
-        yield return new WaitForSeconds(7);
-        SceneManager.LoadScene("EndScene");
-    }
-    
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag.Equals("enemy"))
-        {
+        if (other.CompareTag("enemy"))
             HealthDown();
-        }
        
     }
 

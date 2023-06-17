@@ -1,19 +1,17 @@
-﻿using UnityEngine;
+﻿using System.Reflection;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class Scores : MonoBehaviour
 {
-
-    //Skor hesaplamaları
-
-    [SerializeField]Text bestScoreTxt,lastScoreTxt,scoreBest,scoreLast;
+    [SerializeField] Text bestScoreTxt, lastScoreTxt;
     float last,best;
     void Start()
     {
         Time.timeScale = 1;
-        last = TheAnt.points;
-        lastScoreTxt.text = "Last: "+TheAnt.pointTxt.text;
-        scoreLast.text = lastScoreTxt.text;
+        last = float.Parse(PlayerPrefs.GetFloat("LastPoint").ToString());
+        lastScoreTxt.text = "Last: "+string.Format("{0:0.0}", last) + " m";
+
         best = float.Parse(PlayerPrefs.GetFloat("best").ToString());
         CalculateBest();
 
@@ -21,7 +19,7 @@ public class Scores : MonoBehaviour
     // Skor
     void CalculateBest()
     {
-        if (best == null || best == 0|| best < last)
+        if (best == 0|| best < last)
         {
             best = last;
             PlayerPrefs.SetFloat("best", last);
@@ -29,7 +27,6 @@ public class Scores : MonoBehaviour
         }
 
         best = float.Parse(PlayerPrefs.GetFloat("best").ToString());
-        bestScoreTxt.text = "Best: "+string.Format("{0:0.0}", best) + " m";
-        scoreBest.text = bestScoreTxt.text;
+        bestScoreTxt.text = "Best: " + string.Format("{0:0.0}", best) + " m";
         }
 }

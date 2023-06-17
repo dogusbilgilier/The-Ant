@@ -6,15 +6,28 @@ public class AntMovement : MonoBehaviour
     [SerializeField] Joystick JLeft, JRight;
     Vector3 moveDirection;
     Animator animator;
-    [SerializeField] private float speed=3f;
+    [SerializeField] private float speed = 3f;
     Camera mainCam;
+    bool isDeath;
+    void OnEnable()
+    {
+        EventManager.OnDeath += OnDeath;
+    }
+    void OnDisable()
+    {
+        EventManager.OnDeath -= OnDeath;
+    }
+    void OnDeath()
+    {
+        isDeath = true;
+    }
     void Start()
     {
-        RoadCam.camAnim = false;
+
         mainCam = Camera.main;
         animator = GetComponentInChildren<Animator>();
 
-        if (JoystickOption.stickOr.Equals("Left"))
+        if (PlayerPrefs.GetInt("Joystick",0) == 0)
         {
             joystick = JLeft.GetComponent<FixedJoystick>();
             JRight.gameObject.SetActive(false);
@@ -30,24 +43,16 @@ public class AntMovement : MonoBehaviour
     {
         if (!TheAnt.dead)
             Move();
-        else
-            RoadCam.camAnim = false;
+    }
+    void LateUpdate()
+    {
+        mainCam.transform.position = new Vector3(transform.position.x,
+                                                mainCam.transform.position.y,
+                                                transform.position.z - 1.5f);
     }
 
     void Move()
     {
-        //Kameranın takibi ve yüksekliği
-
-        if (RoadCam.camAnim) 
-            RoadCam.CamUp();
-        else
-            RoadCam.CamDown();
-        
-
-        mainCam.transform.position = new Vector3(transform.position.x,
-                                                mainCam.transform.position.y,
-                                                transform.position.z - 1.5f);
-        //Karınca hareketi
         moveDirection = new Vector3(joystick.Horizontal, 0, joystick.Vertical);
 
         transform.Translate(moveDirection * Time.deltaTime * speed, Space.World);

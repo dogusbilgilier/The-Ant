@@ -72,12 +72,12 @@ public class FoodAndAgentGenerator : MonoBehaviour
     }
     public void InstantiateShoes()
     {
-        if (plane.name.Contains("Pavement") )
+        if (plane.name.Contains("Pavement"))
         {
             targetShoeCount = 30;
-            
+
             randomX = Random.Range(-18, 18);
-            randomZ = Random.Range(planeZPos -25, planeZPos +25);
+            randomZ = Random.Range(planeZPos - 25, planeZPos + 25);
             shoePos = new Vector3(randomX, 0, randomZ);
 
             if (Vector3.Distance(shoePos, ant.transform.position) > 7)
@@ -89,10 +89,10 @@ public class FoodAndAgentGenerator : MonoBehaviour
                 InstantiateShoes();
         }
 
-        if ( plane.name.Contains("Home"))
+        if (plane.name.Contains("Home"))
         {
 
-                targetShoeCount = 5;
+            targetShoeCount = 5;
 
             randomX = Random.Range(-11, 11);
             randomZ = Random.Range(planeZPos - 25, planeZPos + 25);
@@ -100,7 +100,8 @@ public class FoodAndAgentGenerator : MonoBehaviour
 
             if (Vector3.Distance(shoePos, ant.transform.position) > 5)
             {
-                Instantiate(flip, shoePos, Quaternion.identity, shoeContainer.transform);
+                GameObject flipFlop = Instantiate(flip, shoePos, Quaternion.identity, shoeContainer.transform);
+                flipFlop.transform.localPosition = new Vector3(flipFlop.transform.localPosition.x, 0, flipFlop.transform.localPosition.z);
                 shoeCount++;
             }
             else

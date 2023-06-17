@@ -3,15 +3,12 @@ using UnityEngine.UI;
 
 public class JoystickOption : MonoBehaviour
 {
-    Text optionTxt;
-    public static string stickOr="Left";
     [SerializeField] public Image leftImg1, leftImg2, rightImg1, rightImg2;
     private void Start()
     {
-        optionTxt = GetComponentInChildren<Text>();
         leftImg1.color = Color.green;
         leftImg2.color = Color.green;
-        stickOr = "Left";
+        PlayerPrefs.SetInt("Joystick", 0);
     }
     public  void OptionLeft()
     {
@@ -22,7 +19,7 @@ public class JoystickOption : MonoBehaviour
         }
         leftImg1.color = Color.green;
         leftImg2.color = Color.green;
-        stickOr = "Left";
+        PlayerPrefs.SetInt("Joystick", 0);
     }
     public  void OptionRight()
     {
@@ -33,6 +30,6 @@ public class JoystickOption : MonoBehaviour
         }
         rightImg1.color = Color.green;
         rightImg2.color = Color.green;
-        stickOr = "Right";
+        PlayerPrefs.SetInt("Joystick", 1);
     }
 }

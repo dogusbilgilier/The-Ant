@@ -2,7 +2,7 @@
 
 public class Food : MonoBehaviour
 {
-    new LineRenderer renderers;
+    LineRenderer renderers;
     Vector3[] positions;
     float offset = 1;
     GameObject antNose;

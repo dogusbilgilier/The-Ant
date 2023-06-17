@@ -1,48 +1,42 @@
-﻿using UnityEngine;
+﻿using DG.Tweening;
+using UnityEngine;
 
 public class RoadCam : MonoBehaviour
 {
-    public static bool camAnim ;
+    Camera mainCamera;
 
-    private void Start()
+    void OnEnable()
     {
-        camAnim = false;
+        EventManager.OnEnterRoad += CamUp;
+        EventManager.OnLeaveRoad += CamDown;
     }
+    void OnDisable()
+    {
+        EventManager.OnEnterRoad -= CamUp;
+        EventManager.OnLeaveRoad -= CamDown;
+    }
+    void Start()
+    {
+       mainCamera = Camera.main;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag.Equals("Player"))
-        camAnim = true;
+        if (other.CompareTag("Player"))
+            EventManager.OnEnterRoad.Invoke();
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag.Equals("Player"))
-            camAnim = false;
+        if (other.CompareTag("Player"))
+            EventManager.OnLeaveRoad.Invoke();
     }
-   public static void CamUp()
+    void CamUp()
     {
-        Vector3 camUpPos = new Vector3(Camera.main.transform.position.x,
-                                         8.5f, Camera.main.transform.position.z);
-        if (Camera.main.transform.position.y != 8.5)
-        {
-            Camera.main.transform.position = Vector3.MoveTowards(Camera.main.transform.position,
-                                        camUpPos, Time.deltaTime);
-        }
-
+        mainCamera.transform.DOMoveY(8.5f, 1);
     }
-    public static void CamDown()
+    void CamDown()
     {
-        Vector3 camDownPos = new Vector3(Camera.main.transform.position.x,
-                                         6.5f, Camera.main.transform.position.z);
-
-        if (Camera.main.transform.position.y != 6.5)
-        {
-            Camera.main.transform.position = Vector3.MoveTowards(Camera.main.transform.position,
-                                        camDownPos, Time.deltaTime);
-        }
-        else
-            camAnim = false;
-        
-        
+        mainCamera.transform.DOMoveY(6.5f, 1);
     }
 
 }

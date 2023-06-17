@@ -5,10 +5,10 @@ public class Shoe : MonoBehaviour
 {
     GameObject shoeAnim;
     float wanderTimer;
-     NavMeshAgent agent;
+    NavMeshAgent agent;
     float timer;
     public Material[] colors= new Material[6];
-    SkinnedMeshRenderer tong, shoe;
+    [SerializeField]SkinnedMeshRenderer tong, shoe;
     private void OnEnable()
     {
         shoeAnim = gameObject.transform.GetChild(0).gameObject;
